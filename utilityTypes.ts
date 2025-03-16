@@ -13,6 +13,10 @@ type ObjectEntries<T> = {
 	
 const getEntries = <T extends Record<string, unknown>>(obj: T) => Object.entries(obj) as ObjectEntries<T>;
 
+function getEntries<O extends object, K extends keyof O>(obj: O):Array<(readonly [K, O[K]])> {
+	return (Object.keys(obj) as Array<K>).map(k => [k, obj[k]] as const);
+}
+
 /**
  * Makes all properties of an object mutable.
  * 
