@@ -36,6 +36,12 @@ type Writable<T> = { -readonly [K in keyof T]: T[K] };
 type ElementOfArray<ArrayType extends readonly unknown[]> = 
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = 
+  Pick<T, Exclude<keyof T, Keys>> & {
+    [K in Keys]: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+  }[Keys];
+
+
 /**
  * Extracts the writable keys of an object.
  * 
